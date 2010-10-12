@@ -1,0 +1,2 @@
+This repository has an InsightToolkit (ITK) filter for calculating second order
+accurate numerical gradients from an input scalar image.
