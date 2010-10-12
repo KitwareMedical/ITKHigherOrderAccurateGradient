@@ -1,0 +1,3 @@
+*.h      hooks.style
+*.txx    hooks.style
+*.cxx    hooks.style
