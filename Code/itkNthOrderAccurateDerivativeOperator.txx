@@ -18,8 +18,6 @@
 
 #include "itkNumericTraits.h"
 
-#include <iostream>
-
 namespace itk
 {
 template< class TPixel, unsigned int VDimension, class TAllocator >
@@ -67,11 +65,6 @@ NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
 
   // Center point.
   coeff[order] = 0.0;
-
-  std::cout << "coeff: ";
-  for( i = 0; i < coeff.size(); ++i )
-    std::cout << coeff[i] << " ";
-  std::cout << std::endl;
 
   return coeff;
 }
