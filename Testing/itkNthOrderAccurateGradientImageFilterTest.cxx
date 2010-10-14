@@ -16,7 +16,7 @@ int itkNthOrderAccurateGradientImageFilterTest(int argc, char *argv[])
   if ( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputDisplacementImage outputPrefix ";
+    std::cerr << " inputImage outputPrefix ";
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }

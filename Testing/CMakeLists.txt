@@ -15,3 +15,20 @@ add_test( itkNthOrderAccurateGradientImageFilterTest
   ${INPUT_DIR}/foot.mha
   itkNthOrderAccurateGradientImageFilterTest
   )
+
+
+add_executable( itkNthOrderAccurateDerivativeImageFilterTest
+  itkNthOrderAccurateDerivativeImageFilterTest.cxx
+  )
+target_link_libraries( itkNthOrderAccurateDerivativeImageFilterTest
+  ITKCommon
+  ITKIO
+  )
+
+# @todo compare output of regular with accuracy of 1
+add_test( itkNthOrderAccurateDerivativeImageFilterTest
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkNthOrderAccurateDerivativeImageFilterTest
+  itkNthOrderAccurateDerivativeImageFilterTest
+  ${INPUT_DIR}/foot.mha
+  itkNthOrderAccurateDerivativeImageFilterTest
+  )

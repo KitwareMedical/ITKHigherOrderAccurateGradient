@@ -1,0 +1,81 @@
+/*=========================================================================
+
+  Program:   Insight Segmentation & Registration Toolkit
+  Module:    itkNthOrderAccurateDerivativeOperator.txx
+  Language:  C++
+
+  Copyright (c) Insight Software Consortium. All rights reserved.
+  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notices for more information.
+
+=========================================================================*/
+#ifndef __itkNthOrderAccurateDerivativeOperator_txx
+#define __itkNthOrderAccurateDerivativeOperator_txx
+#include "itkNthOrderAccurateDerivativeOperator.h"
+
+#include "itkNumericTraits.h"
+
+#include <iostream>
+
+namespace itk
+{
+template< class TPixel, unsigned int VDimension, class TAllocator >
+typename NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+::CoefficientVector
+NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+::GenerateCoefficients()
+{
+  switch ( m_Order )
+    {
+  case 1:
+    return this->GenerateFirstOrderCoefficients();
+  default:
+    itkExceptionMacro(<< "The specified derivative order/degree is not yet supported.");
+    }
+}
+
+template< class TPixel, unsigned int VDimension, class TAllocator >
+typename NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+::CoefficientVector
+NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+::GenerateFirstOrderCoefficients()
+{
+  unsigned int order  = this->m_OrderOfAccuracy;
+  unsigned int length = 2 * order + 1;
+  CoefficientVector coeff( length );
+
+  coeff[order + 1] = static_cast< double >( order ) / ( order + 1 );
+  coeff[order - 1] = -1 * coeff[order + 1];
+
+  unsigned int i;
+  for( i = 1; i < order; ++i )
+    {
+    coeff[order + 1 + i] = -1 * (i * static_cast< double >(order - i)) /
+      ( static_cast< double >(order + i + 1) * (i + 1)) * coeff[order + i];
+    coeff[order - 1 - i] = -1 * coeff[order + 1 + i];
+    }
+
+  // We perform a flip of axes here to keep in line with
+  // itk::DerivativeOperator.  The DerivativeImageFilter then calls FlipAxes(),
+  // so I am not sure why they put it in reverse order in the first place.  Note
+  // that a flip in this case is the same as flipping the sign.
+  for( i = 0; i < length; ++i )
+    coeff[i] *= -1;
+
+  // Center point.
+  coeff[order] = 0.0;
+
+  std::cout << "coeff: ";
+  for( i = 0; i < coeff.size(); ++i )
+    std::cout << coeff[i] << " ";
+  std::cout << std::endl;
+
+  return coeff;
+}
+
+} // namespace itk
+
+#endif

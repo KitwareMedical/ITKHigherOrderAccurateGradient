@@ -22,7 +22,7 @@ namespace itk {
  * approximations of higher-degree derivatives."  Journal of Computational and
  * Applied Mathematics.  vol 154.  p. 115-124.  2003.
  *
- * To specify the order of accuracy, use SetAccuracyOrder().
+ * To specify the order of accuracy, use SetOrderOfAccuracy().
  *
  * \ingroup GradientFilters
  */
