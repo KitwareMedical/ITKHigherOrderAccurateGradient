@@ -5,6 +5,9 @@ void RegisterTests()
   REGISTER_TEST(itkNthOrderAccurateGradientImageFilterTest);
 }
 
+#include <sstream>
+
+#include "itkGradientImageFilter.h"
 #include "itkGradientToMagnitudeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -29,41 +32,43 @@ int itkNthOrderAccurateGradientImageFilterTest(int argc, char *argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::NthOrderAccurateGradientImageFilter< ImageType, float > FilterType;
+  // First order accurate.
+  typedef itk::GradientImageFilter< ImageType, float, float > FirstFilterType;
+  FirstFilterType::Pointer firstFilter = FirstFilterType::New();
+  firstFilter->SetInput( reader->GetOutput() );
+
+  typedef itk::NthOrderAccurateGradientImageFilter< ImageType, float, float > FilterType;
   typedef FilterType::OutputImageType GradientImageType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
 
-  typedef itk::ImageFileWriter< GradientImageType > GradientWriterType;
-  GradientWriterType::Pointer gradientWriter = GradientWriterType::New();
-  gradientWriter->SetInput( filter->GetOutput() );
   std::string outputPrefix = argv[2];
-  gradientWriter->SetFileName( outputPrefix + "_Gradient.mha" );
-
-  try
-    {
-    gradientWriter->Update();
-    }
-  catch (itk::ExceptionObject& ex)
-    {
-    std::cerr << "Exception caught!" << std::endl;
-    std::cerr << ex << std::endl;
-    return EXIT_FAILURE;
-    }
 
   typedef itk::GradientToMagnitudeImageFilter< GradientImageType, ImageType >
     GradientMagnitudeFilterType;
   GradientMagnitudeFilterType::Pointer gradientMagnitude = GradientMagnitudeFilterType::New();
-  gradientMagnitude->SetInput( filter->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > GradientMagnitudeWriterType;
   GradientMagnitudeWriterType::Pointer gradientMagnitudeWriter = GradientMagnitudeWriterType::New();
   gradientMagnitudeWriter->SetInput( gradientMagnitude->GetOutput() );
-  gradientMagnitudeWriter->SetFileName( outputPrefix + "_GradientMagnitude.mha" );
 
+  std::ostringstream ostrm;
   try
     {
+    gradientMagnitude->SetInput( firstFilter->GetOutput() );
+    ostrm.str( "" );
+    ostrm << outputPrefix + "_GradientImageFilter_Magnitude.mha";
+    gradientMagnitudeWriter->SetFileName( ostrm.str() );
     gradientMagnitudeWriter->Update();
+    gradientMagnitude->SetInput( filter->GetOutput() );
+    for( unsigned int accuracy = 1; accuracy < 6; ++accuracy )
+      {
+      filter->SetOrderOfAccuracy( accuracy );
+      ostrm.str( "" );
+      ostrm << outputPrefix << "_Accuracy" << accuracy << "_Magnitude.mha";
+      gradientMagnitudeWriter->SetFileName( ostrm.str() );
+      gradientMagnitudeWriter->Update();
+      }
     }
   catch (itk::ExceptionObject& ex)
     {

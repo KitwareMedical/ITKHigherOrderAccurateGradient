@@ -2,7 +2,6 @@
 #define __itkNthOrderAccurateGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImage.h"
 #include "itkCovariantVector.h"
 
 namespace itk {
@@ -24,14 +23,20 @@ namespace itk {
  *
  * To specify the order of accuracy, use SetOrderOfAccuracy().
  *
+ * \sa NthOrderAccurateDerivativeOperator
+ * \sa NthOrderAccurateDerivativeImageFilter
+ *
  * \ingroup GradientFilters
  */
-template< class TInputImage, class TOutputValueType = float > class ITK_EXPORT
-  NthOrderAccurateGradientImageFilter: public ImageToImageFilter< TInputImage,
+template< class TInputImage, class TOperatorValueType = float,
+  class TOutputValueType = float >
+class ITK_EXPORT NthOrderAccurateGradientImageFilter: public ImageToImageFilter< TInputImage,
   Image< CovariantVector< TOutputValueType, ::itk::GetImageDimension<
                                        TInputImage >::ImageDimension >,
                                        ::itk::GetImageDimension< TInputImage
-                                       >::ImageDimension > > { public:
+                                       >::ImageDimension > >
+{
+public:
   /** Extract dimension from input image. */
   itkStaticConstMacro(ImageDimension, unsigned int,
     TInputImage::ImageDimension);
@@ -61,11 +66,27 @@ template< class TInputImage, class TOutputValueType = float > class ITK_EXPORT
 
   /** Image typedef support. */
   typedef typename InputImageType::PixelType InputPixelType;
+  typedef TOperatorValueType                 OperatorValueType;
   typedef TOutputValueType                   OutputValueType;
   typedef CovariantVector<
     OutputValueType, itkGetStaticConstMacro(OutputImageDimension) >
   OutputPixelType;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
+
+  /** GradientImageFilter needs a larger input requested region than
+   * the output requested region.  As such, GradientImageFilter needs
+   * to provide an implementation for GenerateInputRequestedRegion()
+   * in order to inform the pipeline execution model.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion()
+  throw( InvalidRequestedRegionError );
+
+  /** Set/Get whether or not the filter will use the spacing of the input
+      image in its calculations */
+  itkSetMacro(UseImageSpacing, bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -76,13 +97,54 @@ template< class TInputImage, class TOutputValueType = float > class ITK_EXPORT
   /** End concept checking */
 #endif
 
+  /** The UseImageDirection flag determines whether image derivatives are
+   * computed with respect to the image grid or with respect to the physical
+   * space. When this flag is ON the derivatives are computed with respect to
+   * the coodinate system of physical space. The difference is whether we take
+   * into account the image Direction or not. The flag ON will take into
+   * account the image direction and will result in an extra matrix
+   * multiplication compared to the amount of computation performed when the
+   * flag is OFF.
+   * The default value of this flag is On.
+   */
+  itkSetMacro(UseImageDirection, bool);
+  itkGetConstMacro(UseImageDirection, bool);
+  itkBooleanMacro(UseImageDirection);
+
+  /** Set/Get the order of accuracy of the derivative operator.  For more
+   * information, see NthOrderAccurateDerivativeOperator. */
+  itkSetMacro( OrderOfAccuracy, unsigned int );
+  itkGetConstMacro( OrderOfAccuracy, unsigned int )
+
 protected:
   NthOrderAccurateGradientImageFilter();
   virtual ~NthOrderAccurateGradientImageFilter() {}
+  void PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** GradientImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData()
+   * routine which is called for each processing thread. The output
+   * image data is allocated automatically by the superclass prior to
+   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * write to the portion of the output image specified by the
+   * parameter "outputRegionForThread"
+   *
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData() */
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                            int threadId);
 
 private:
   NthOrderAccurateGradientImageFilter( const Self & ); // purposely not implemented
   void operator=( const Self & );                 // purposely not implemented
+
+  bool m_UseImageSpacing;
+
+  // flag to take or not the image direction into account
+  // when computing the derivatives.
+  bool m_UseImageDirection;
+
+  unsigned int m_OrderOfAccuracy;
 };
 
 } // end namespace itk
