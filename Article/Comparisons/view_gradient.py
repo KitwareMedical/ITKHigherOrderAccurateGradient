@@ -32,7 +32,7 @@ gradient_reader.SetFileName( sys.argv[2] )
 gradient_reader.Update()
 
 min = 0.0
-max = 90.0
+max = 128.0
 shift = -1 * min
 scale = 255./ ( max - min )
 

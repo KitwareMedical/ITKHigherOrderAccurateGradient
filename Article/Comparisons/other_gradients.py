@@ -34,7 +34,7 @@ itk.write( dog_mag_filter, 'foot_DifferenceOfGaussiansGradientImageFilter_magnit
 
 recursive_gauss_filter = itk.GradientRecursiveGaussianImageFilter[ imgt, gradt ].New()
 recursive_gauss_filter.SetInput( reader.GetOutput() )
-recursive_gauss_filter.SetSigma( 2.0 )
+recursive_gauss_filter.SetSigma( 1.0 )
 recursive_gauss_filter.SetNormalizeAcrossScale( True )
 itk.write( recursive_gauss_filter, 'foot_GradientRecursiveGaussianImageFilter.mha' )
 
