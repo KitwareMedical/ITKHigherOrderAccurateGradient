@@ -1,0 +1,168 @@
+%
+% Complete documentation on the extended LaTeX markup used for Insight
+% documentation is available in ``Documenting Insight'', which is part
+% of the standard documentation for Insight.  It may be found online
+% at:
+%
+%     http://www.itk.org/
+
+\documentclass{InsightArticle}
+
+\usepackage[dvips]{graphicx}
+\usepackage{subfigure}
+
+\usepackage{amsmath}
+\DeclareMathOperator{\sgn}{sgn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  hyperref should be the last package to be loaded.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[dvips,
+bookmarks,
+bookmarksopen,
+backref,
+colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
+]{hyperref}
+
+
+%  This is a template for Papers to the Insight Journal.
+%  It is comparable to a technical report format.
+
+% The title should be descriptive enough for people to be able to find
+% the relevant document.
+\title{Higher Order Accurate Derivative and Gradient Calculation in ITK}
+
+%
+% NOTE: This is the last number of the "handle" URL that
+% The Insight Journal assigns to your paper as part of the
+% submission process. Please replace the number "1338" with
+% the actual handle number that you get assigned.
+%
+\newcommand{\IJhandlerIDnumber}{9999}
+
+% Increment the release number whenever significant changes are made.
+% The author and/or editor can define 'significant' however they like.
+\release{1.0.0}
+
+% At minimum, give your name and an email address.  You can include a
+% snail-mail address if you like.
+%\author{Galileo Galilei$^{1}$, Giordano Bruno$^{2}$ and Anthony Leeuwenhoek$^{3}$}
+%\authoraddress{$^{1}$Pisa University, Tower drive\\
+               %$^{2}$Rome University, Inquisition street\\
+               %$^{3}$Netherlands Pragmatic University, Port street}
+\author{Matthew McCormick$^{1}$}
+\authoraddress{$^{1}$University of Wisconsin-Madison, matt@mmmccormick.com}
+
+\begin{document}
+
+%
+% Add hyperlink to the web location and license of the paper.
+% The argument of this command is the handler identifier given
+% by the Insight Journal to this paper.
+%
+\IJhandlefooter{\IJhandlerIDnumber}
+
+
+\ifpdf
+\else
+   %
+   % Commands for including Graphics when using latex
+   %
+   \DeclareGraphicsExtensions{.eps,.jpg,.gif,.tiff,.bmp,.png}
+   \DeclareGraphicsRule{.jpg}{eps}{.jpg.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.gif}{eps}{.gif.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.tiff}{eps}{.tiff.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.bmp}{eps}{.bmp.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.png}{eps}{.png.bb}{`convert #1 eps:-}
+\fi
+
+
+\maketitle
+
+
+\ifhtml
+\chapter*{Front Matter\label{front}}
+\fi
+
+
+% The abstract should be a paragraph or two long, and describe the scope of the
+% document.
+\begin{abstract}
+\noindent In this article we describe higher order accurate derivative and gradient
+image filters for the InsightToolkit.  These filters are central difference-based
+numerical derivative approximations that account for additional Taylor
+series terms and are based on the expressions given by Khan and Ohba.
+\end{abstract}
+
+\IJhandlenote{\IJhandlerIDnumber}
+
+\tableofcontents
+
+\section{Introduction}
+
+A common way to approximate the first derivative of a function $f_k$ at sample offset $k$ using
+finite differences is the central difference method.
+\begin{equation}
+  f^1_0  \approx \frac{f_1 - f_{-1}} { 2 h }
+\end{equation}
+
+Where $h$ is the sampling period.
+
+This expression comes from a Taylor series expansion of the component terms
+\begin{equation}
+  f_1 = f_0 + h f^1_0 + \frac{h^2}{2!}f^2_0 + \cdots + \frac{h^n}{n!} +
+  \mathcal{O}(h^{n+1})
+\end{equation}
+
+Where $\mathcal{O}(h^{n+1})$ indicates the series has been truncated after $n+1$
+terms.
+
+We also have
+\begin{equation}
+  f_{-1} = f_0 - h f^1_0 + \mathcal{O}(h^{2})
+\end{equation}
+
+Then we see
+\begin{equation}
+  f^1_0 = \frac{f_1 - f_{-1}} { 2 h } + \mathcal{O}(h^{2})
+\end{equation}
+
+Higher order accurate\footnote{Here we use the terminology \textit{order of
+accuracy} to refer to the number of terms used in the Taylor series
+approximation and \textit{order derivative} to refer to the degree of the
+derivative.} approximations can be made by using additional samples.
+For instance, a central difference approximation to the first derivative that uses a
+five point kernel is
+\begin{equation}
+  f^1_0 = \frac{f_{-2} - 8 f_{-1} + 8 f_1 - f_2}{ 12 h } + \mathcal{O}(h^4)
+\end{equation}
+
+Khan and Ohba derived closed form expressions for higher order accurate
+approximations for an arbitrary $p$th order derivative\cite{Khan1999,Khan2003}.
+In this paper we present image derivative and gradient filters for the
+InsightToolkit (ITK)\cite{itk} that implement these expressions.
+
+\section{Implementation}
+
+The interfaces of \code{itk::HigherOrderAccurateDerivativeImageFilter} and
+\code{itk::HigherOrderAccurateGradientImageFilter} are similar to
+\doxygen{DerivativeImageFilter} and \doxygen{GradientImageFilter}.  However,
+these filters have an additional method, \code{SetOrderOfAccuracy()}.  The
+approximation will be accurate in Taylor series terms to twice the
+\code{OrderOfAccuracy}.  They are fast filters implemented with
+\doxygen{NeighborhoodIterator}'s.  Note that the radius of the
+\doxygen{NeighborhoodOperator} will be equal to the \code{OrderOfAccuracy}.
+Each order derivative is implemented separately to use recursion during
+calculation of the factorials in the expression\cite{Khan1999}.
+
+\section{An Example -- Foot MRI Derivative and Gradient Magnitude}
+
+\section{Future Work}
+
+\bibliographystyle{itk}
+\bibliography{ij_higher_order_accurate_gradient}
+
+
+\end{document}
