@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNthOrderAccurateDerivativeImageFilter.h
+  Module:    itkHigherOrderAccurateDerivativeImageFilter.h
   Language:  C++
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -12,24 +12,26 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNthOrderAccurateDerivativeImageFilter_h
-#define __itkNthOrderAccurateDerivativeImageFilter_h
+#ifndef __itkHigherOrderAccurateDerivativeImageFilter_h
+#define __itkHigherOrderAccurateDerivativeImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
-/** \class NthOrderAccurateDerivativeImageFilter
- * \brief Computes the Nth order accurate directional derivative of an image.
+/** \class HigherOrderAccurateDerivativeImageFilter
+ * \brief Computes the higher order accurate directional derivative of an image.
  * The directional derivative at each pixel location is computed by convolution
- * with a Nth order accurate derivative operator of user-specified order.
+ * with a higher order accurate derivative operator of user-specified order.
  *
  * SetOrder() specifies the order of the derivative.
  *
  * SetDirection() specifies the direction of the derivative with respect to the
  * coordinate axes of the image.
  *
- * To specify the order of accuracy, use SetOrderOfAccuracy().
+ * To specify the order of accuracy, use SetOrderOfAccuracy().  The
+ * approximation will be accurate to two times the OrderOfAccuracy in terms of
+ * Taylor series terms.
  *
  * \sa Image
  * \sa Neighborhood
@@ -39,12 +41,12 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT NthOrderAccurateDerivativeImageFilter:
+class ITK_EXPORT HigherOrderAccurateDerivativeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef NthOrderAccurateDerivativeImageFilter                           Self;
+  typedef HigherOrderAccurateDerivativeImageFilter                           Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -69,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NthOrderAccurateDerivativeImageFilter, ImageToImageFilter);
+  itkTypeMacro(HigherOrderAccurateDerivativeImageFilter, ImageToImageFilter);
 
   /** The output pixel type must be signed. */
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -102,9 +104,9 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
 
-  /** NthOrderAccurateDerivativeImageFilter needs a larger input requested region than
+  /** HigherOrderAccurateDerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
-   * derivative).  As such, NthOrderAccurateDerivativeImageFilter needs to provide an
+   * derivative).  As such, HigherOrderAccurateDerivativeImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to
    * inform the pipeline execution model.
    *
@@ -113,14 +115,14 @@ public:
   throw( InvalidRequestedRegionError );
 
 protected:
-  NthOrderAccurateDerivativeImageFilter():
+  HigherOrderAccurateDerivativeImageFilter():
     m_Order(1),
     m_OrderOfAccuracy(1),
     m_Direction(0),
     m_UseImageSpacing(true)
   {}
 
-  virtual ~NthOrderAccurateDerivativeImageFilter() {}
+  virtual ~HigherOrderAccurateDerivativeImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** Standard pipeline method. While this class does not implement a
@@ -131,7 +133,7 @@ protected:
   void GenerateData();
 
 private:
-  NthOrderAccurateDerivativeImageFilter(const Self &); //purposely not implemented
+  HigherOrderAccurateDerivativeImageFilter(const Self &); //purposely not implemented
   void operator=(const Self &);        //purposely not implemented
 
   /** The order of the derivative. */
@@ -148,7 +150,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNthOrderAccurateDerivativeImageFilter.txx"
+#include "itkHigherOrderAccurateDerivativeImageFilter.txx"
 #endif
 
 #endif

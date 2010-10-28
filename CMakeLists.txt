@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 cmake_policy(VERSION 2.8)
 
-project( ITK_NTH_ORDER_ACCURATE_GRADIENT )
+project( ITK_HIGHER_ORDER_ACCURATE_GRADIENT )
 
 find_package( ITK REQUIRED )
 include( ${ITK_USE_FILE} )
@@ -22,9 +22,9 @@ endif( CMAKE_COMPILER_IS_GNUCXX )
 
 # where all the executables go
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY
-  ${ITK_NTH_ORDER_ACCURATE_GRADIENT_BINARY_DIR}/bin )
+  ${ITK_HIGHER_ORDER_ACCURATE_GRADIENT_BINARY_DIR}/bin )
 
-include_directories( ${ITK_NTH_ORDER_ACCURATE_GRADIENT_SOURCE_DIR}/Code )
+include_directories( ${ITK_HIGHER_ORDER_ACCURATE_GRADIENT_SOURCE_DIR}/Code )
 
 include(CTest)
 if(BUILD_TESTING)

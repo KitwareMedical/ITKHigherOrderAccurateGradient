@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNthOrderAccurateDerivativeImageFilter.txx
+  Module:    itkHigherOrderAccurateDerivativeImageFilter.txx
   Language:  C++
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -12,20 +12,20 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNthOrderAccurateDerivativeImageFilter_txx
-#define __itkNthOrderAccurateDerivativeImageFilter_txx
-#include "itkNthOrderAccurateDerivativeImageFilter.h"
+#ifndef __itkHigherOrderAccurateDerivativeImageFilter_txx
+#define __itkHigherOrderAccurateDerivativeImageFilter_txx
+#include "itkHigherOrderAccurateDerivativeImageFilter.h"
 
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
-#include "itkNthOrderAccurateDerivativeOperator.h"
+#include "itkHigherOrderAccurateDerivativeOperator.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk
 {
 template< class TInputImage, class TOutputImage >
 void
-NthOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
+HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 throw ( InvalidRequestedRegionError )
 {
@@ -43,7 +43,7 @@ throw ( InvalidRequestedRegionError )
     }
 
   // Build an operator so that we can determine the kernel size
-  NthOrderAccurateDerivativeOperator< OutputPixelType, ImageDimension > oper;
+  HigherOrderAccurateDerivativeOperator< OutputPixelType, ImageDimension > oper;
   oper.SetDirection(m_Direction);
   oper.SetOrder(m_Order);
   oper.SetOrderOfAccuracy(m_OrderOfAccuracy);
@@ -82,7 +82,7 @@ throw ( InvalidRequestedRegionError )
 
 template< class TInputImage, class TOutputImage >
 void
-NthOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
+HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   ZeroFluxNeumannBoundaryCondition< TInputImage > nbc;
@@ -92,7 +92,7 @@ NthOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
   typedef typename NumericTraits< OutputPixelType >::RealType OperatorValueType;
 
   // Filter
-  NthOrderAccurateDerivativeOperator< OperatorValueType, ImageDimension > oper;
+  HigherOrderAccurateDerivativeOperator< OperatorValueType, ImageDimension > oper;
   oper.SetDirection(m_Direction);
   oper.SetOrder(m_Order);
   oper.SetOrderOfAccuracy(m_OrderOfAccuracy);
@@ -147,7 +147,7 @@ NthOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 
 template< class TInputImage, class TOutputImage >
 void
-NthOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
+HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

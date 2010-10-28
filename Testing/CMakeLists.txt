@@ -1,34 +1,34 @@
-set( INPUT_DIR ${ITK_NTH_ORDER_ACCURATE_GRADIENT_SOURCE_DIR}/Testing/Data/Input )
+set( INPUT_DIR ${ITK_HIGHER_ORDER_ACCURATE_GRADIENT_SOURCE_DIR}/Testing/Data/Input )
 
-add_executable( itkNthOrderAccurateGradientImageFilterTest
-  itkNthOrderAccurateGradientImageFilterTest.cxx
+add_executable( itkHigherOrderAccurateGradientImageFilterTest
+  itkHigherOrderAccurateGradientImageFilterTest.cxx
   )
-target_link_libraries( itkNthOrderAccurateGradientImageFilterTest
+target_link_libraries( itkHigherOrderAccurateGradientImageFilterTest
   ITKCommon
   ITKIO
   )
 
 # @todo compare components
-add_test( itkNthOrderAccurateGradientImageFilterTest
-  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkNthOrderAccurateGradientImageFilterTest
-  itkNthOrderAccurateGradientImageFilterTest
+add_test( itkHigherOrderAccurateGradientImageFilterTest
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkHigherOrderAccurateGradientImageFilterTest
+  itkHigherOrderAccurateGradientImageFilterTest
   ${INPUT_DIR}/foot.mha
-  itkNthOrderAccurateGradientImageFilterTest
+  itkHigherOrderAccurateGradientImageFilterTest
   )
 
 
-add_executable( itkNthOrderAccurateDerivativeImageFilterTest
-  itkNthOrderAccurateDerivativeImageFilterTest.cxx
+add_executable( itkHigherOrderAccurateDerivativeImageFilterTest
+  itkHigherOrderAccurateDerivativeImageFilterTest.cxx
   )
-target_link_libraries( itkNthOrderAccurateDerivativeImageFilterTest
+target_link_libraries( itkHigherOrderAccurateDerivativeImageFilterTest
   ITKCommon
   ITKIO
   )
 
 # @todo compare output of regular with accuracy of 1
-add_test( itkNthOrderAccurateDerivativeImageFilterTest
-  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkNthOrderAccurateDerivativeImageFilterTest
-  itkNthOrderAccurateDerivativeImageFilterTest
+add_test( itkHigherOrderAccurateDerivativeImageFilterTest
+  ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkHigherOrderAccurateDerivativeImageFilterTest
+  itkHigherOrderAccurateDerivativeImageFilterTest
   ${INPUT_DIR}/foot.mha
-  itkNthOrderAccurateDerivativeImageFilterTest
+  itkHigherOrderAccurateDerivativeImageFilterTest
   )

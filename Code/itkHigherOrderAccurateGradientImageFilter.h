@@ -1,13 +1,13 @@
-#ifndef __itkNthOrderAccurateGradientImageFilter_h
-#define __itkNthOrderAccurateGradientImageFilter_h
+#ifndef __itkHigherOrderAccurateGradientImageFilter_h
+#define __itkHigherOrderAccurateGradientImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkCovariantVector.h"
 
 namespace itk {
-/** \class NthOrderAccurateGradientImageFilter
+/** \class HigherOrderAccurateGradientImageFilter
  *
- * \brief Calculate the image gradient from a Nth order accurate
+ * \brief Calculate the image gradient from a higher order accurate
  * central-difference derivative kernel.
  *
  * Based on the work here:
@@ -21,16 +21,18 @@ namespace itk {
  * approximations of higher-degree derivatives."  Journal of Computational and
  * Applied Mathematics.  vol 154.  p. 115-124.  2003.
  *
- * To specify the order of accuracy, use SetOrderOfAccuracy().
+ * To specify the order of accuracy, use SetOrderOfAccuracy().  The
+ * approximation will be accurate to two times the OrderOfAccuracy in terms of
+ * Taylor series terms.
  *
- * \sa NthOrderAccurateDerivativeOperator
- * \sa NthOrderAccurateDerivativeImageFilter
+ * \sa HigherOrderAccurateDerivativeOperator
+ * \sa HigherOrderAccurateDerivativeImageFilter
  *
  * \ingroup GradientFilters
  */
 template< class TInputImage, class TOperatorValueType = float,
   class TOutputValueType = float >
-class ITK_EXPORT NthOrderAccurateGradientImageFilter: public ImageToImageFilter< TInputImage,
+class ITK_EXPORT HigherOrderAccurateGradientImageFilter: public ImageToImageFilter< TInputImage,
   Image< CovariantVector< TOutputValueType, ::itk::GetImageDimension<
                                        TInputImage >::ImageDimension >,
                                        ::itk::GetImageDimension< TInputImage
@@ -42,7 +44,7 @@ public:
     TInputImage::ImageDimension);
 
   /** Standard class typedefs. */
-  typedef NthOrderAccurateGradientImageFilter Self;
+  typedef HigherOrderAccurateGradientImageFilter Self;
 
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage                      InputImageType;
@@ -62,7 +64,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NthOrderAccurateGradientImageFilter, ImageToImageFilter);
+  itkTypeMacro(HigherOrderAccurateGradientImageFilter, ImageToImageFilter);
 
   /** Image typedef support. */
   typedef typename InputImageType::PixelType InputPixelType;
@@ -112,13 +114,13 @@ public:
   itkBooleanMacro(UseImageDirection);
 
   /** Set/Get the order of accuracy of the derivative operator.  For more
-   * information, see NthOrderAccurateDerivativeOperator. */
+   * information, see HigherOrderAccurateDerivativeOperator. */
   itkSetMacro( OrderOfAccuracy, unsigned int );
   itkGetConstMacro( OrderOfAccuracy, unsigned int )
 
 protected:
-  NthOrderAccurateGradientImageFilter();
-  virtual ~NthOrderAccurateGradientImageFilter() {}
+  HigherOrderAccurateGradientImageFilter();
+  virtual ~HigherOrderAccurateGradientImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
@@ -135,7 +137,7 @@ protected:
                             int threadId);
 
 private:
-  NthOrderAccurateGradientImageFilter( const Self & ); // purposely not implemented
+  HigherOrderAccurateGradientImageFilter( const Self & ); // purposely not implemented
   void operator=( const Self & );                 // purposely not implemented
 
   bool m_UseImageSpacing;
@@ -150,7 +152,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkNthOrderAccurateGradientImageFilter.txx"
+#include "itkHigherOrderAccurateGradientImageFilter.txx"
 #endif
 
 #endif

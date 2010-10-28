@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNthOrderAccurateDerivativeOperator.txx
+  Module:    itkHigherOrderAccurateDerivativeOperator.txx
   Language:  C++
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -12,18 +12,18 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNthOrderAccurateDerivativeOperator_txx
-#define __itkNthOrderAccurateDerivativeOperator_txx
-#include "itkNthOrderAccurateDerivativeOperator.h"
+#ifndef __itkHigherOrderAccurateDerivativeOperator_txx
+#define __itkHigherOrderAccurateDerivativeOperator_txx
+#include "itkHigherOrderAccurateDerivativeOperator.h"
 
 #include "itkNumericTraits.h"
 
 namespace itk
 {
 template< class TPixel, unsigned int VDimension, class TAllocator >
-typename NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+typename HigherOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
 ::CoefficientVector
-NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+HigherOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GenerateCoefficients()
 {
   switch ( m_Order )
@@ -36,9 +36,9 @@ NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
 }
 
 template< class TPixel, unsigned int VDimension, class TAllocator >
-typename NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+typename HigherOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
 ::CoefficientVector
-NthOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
+HigherOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
 ::GenerateFirstOrderCoefficients()
 {
   unsigned int order  = this->m_OrderOfAccuracy;

@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNthOrderAccurateGradientImageFilter.txx
+  Module:    itkHigherOrderAccurateGradientImageFilter.txx
   Language:  C++
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -12,14 +12,14 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNthOrderAccurateGradientImageFilter_txx
-#define __itkNthOrderAccurateGradientImageFilter_txx
-#include "itkNthOrderAccurateGradientImageFilter.h"
+#ifndef __itkHigherOrderAccurateGradientImageFilter_txx
+#define __itkHigherOrderAccurateGradientImageFilter_txx
+#include "itkHigherOrderAccurateGradientImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkImageRegionIterator.h"
-#include "itkNthOrderAccurateDerivativeOperator.h"
+#include "itkHigherOrderAccurateDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
 #include "itkProgressReporter.h"
@@ -27,8 +27,8 @@
 namespace itk
 {
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
-NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
-::NthOrderAccurateGradientImageFilter():
+HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+::HigherOrderAccurateGradientImageFilter():
   m_UseImageSpacing( true ),
   m_UseImageDirection( true ),
   m_OrderOfAccuracy( 1 )
@@ -37,7 +37,7 @@ NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputVal
 
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
-NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::GenerateInputRequestedRegion()
 throw ( InvalidRequestedRegionError )
 {
@@ -55,7 +55,7 @@ throw ( InvalidRequestedRegionError )
     }
 
   // Build an operator so that we can determine the kernel size
-  NthOrderAccurateDerivativeOperator< OperatorValueType, ImageDimension > oper;
+  HigherOrderAccurateDerivativeOperator< OperatorValueType, ImageDimension > oper;
   oper.SetDirection(0);
   oper.SetOrder(1);
   oper.SetOrderOfAccuracy(this->m_OrderOfAccuracy);
@@ -95,7 +95,7 @@ throw ( InvalidRequestedRegionError )
 
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
-NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        int threadId)
 {
@@ -115,7 +115,7 @@ NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputVal
   const InputImageType *inputImage  = this->GetInput();
 
   // Set up operators
-  NthOrderAccurateDerivativeOperator< OperatorValueType, ImageDimension > op[ImageDimension];
+  HigherOrderAccurateDerivativeOperator< OperatorValueType, ImageDimension > op[ImageDimension];
 
   for ( i = 0; i < ImageDimension; i++ )
     {
@@ -208,7 +208,7 @@ NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputVal
  */
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
-NthOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
+HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

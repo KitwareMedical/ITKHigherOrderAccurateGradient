@@ -2,7 +2,7 @@
 
 void RegisterTests()
 {
-  REGISTER_TEST(itkNthOrderAccurateDerivativeImageFilterTest);
+  REGISTER_TEST(itkHigherOrderAccurateDerivativeImageFilterTest);
 }
 
 #include <sstream>
@@ -11,9 +11,9 @@ void RegisterTests()
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkNthOrderAccurateDerivativeImageFilter.h"
+#include "itkHigherOrderAccurateDerivativeImageFilter.h"
 
-int itkNthOrderAccurateDerivativeImageFilterTest(int argc, char *argv[])
+int itkHigherOrderAccurateDerivativeImageFilterTest(int argc, char *argv[])
 {
   if ( argc < 3 )
     {
@@ -33,8 +33,8 @@ int itkNthOrderAccurateDerivativeImageFilterTest(int argc, char *argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::NthOrderAccurateDerivativeImageFilter< ImageType, ImageType > NthFilterType;
-  NthFilterType::Pointer nthFilter = NthFilterType::New();
+  typedef itk::HigherOrderAccurateDerivativeImageFilter< ImageType, ImageType > HigherFilterType;
+  HigherFilterType::Pointer nthFilter = HigherFilterType::New();
   nthFilter->SetInput( reader->GetOutput() );
   nthFilter->SetOrder( 1 );
 

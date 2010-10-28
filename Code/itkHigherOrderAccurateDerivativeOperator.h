@@ -1,7 +1,7 @@
 /*=========================================================================
 
   Program:   Insight Segmentation & Registration Toolkit
-  Module:    itkNthOrderAccurateDerivativeOperator.h
+  Module:    itkHigherOrderAccurateDerivativeOperator.h
   Language:  C++
 
   Copyright (c) Insight Software Consortium. All rights reserved.
@@ -12,19 +12,19 @@
      PURPOSE.  See the above copyright notices for more information.
 
 =========================================================================*/
-#ifndef __itkNthOrderAccurateDerivativeOperator_h
-#define __itkNthOrderAccurateDerivativeOperator_h
+#ifndef __itkHigherOrderAccurateDerivativeOperator_h
+#define __itkHigherOrderAccurateDerivativeOperator_h
 
 #include "itkNeighborhoodOperator.h"
 
 namespace itk
 {
 /**
- * \class NthOrderAccurateDerivativeOperator
+ * \class HigherOrderAccurateDerivativeOperator
  * \brief A NeighborhoodOperator for calculating an n-th order accurate derivative
  * at a pixel.
  *
- * \brief Calculate the image derivative from a Nth order accurate
+ * \brief Calculate the image derivative from a higher order accurate
  * central-difference derivative kernel.
  *
  * Based on the work here:
@@ -38,7 +38,9 @@ namespace itk
  * approximations of higher-degree derivatives."  Journal of Computational and
  * Applied Mathematics.  vol 154.  p. 115-124.  2003.
  *
- * To specify the order of accuracy, use SetOrderOfAccuracy().
+ * To specify the order of accuracy, use SetOrderOfAccuracy().  The
+ * approximation will be accurate to two times the OrderOfAccuracy in terms of
+ * Taylor series terms.
  *
  * @todo: implement support for higher order derivatives.
  *
@@ -52,12 +54,12 @@ namespace itk
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >
-class ITK_EXPORT NthOrderAccurateDerivativeOperator:
+class ITK_EXPORT HigherOrderAccurateDerivativeOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:
   /** Standard class typedefs. */
-  typedef NthOrderAccurateDerivativeOperator Self;
+  typedef HigherOrderAccurateDerivativeOperator Self;
   typedef NeighborhoodOperator<
     TPixel, VDimension, TAllocator >           Superclass;
 
@@ -65,16 +67,16 @@ public:
   typedef typename Superclass::PixelRealType PixelRealType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NthOrderAccurateDerivativeOperator, NeighborhoodOperator);
+  itkTypeMacro(HigherOrderAccurateDerivativeOperator, NeighborhoodOperator);
 
   /** Constructor. */
-  NthOrderAccurateDerivativeOperator():
+  HigherOrderAccurateDerivativeOperator():
     m_Order(1),
     m_OrderOfAccuracy(1)
   {}
 
   /** Copy constructor. */
-  NthOrderAccurateDerivativeOperator(const Self & other):
+  HigherOrderAccurateDerivativeOperator(const Self & other):
     NeighborhoodOperator< TPixel, VDimension, TAllocator >(other)
   { m_Order = other.m_Order;  }
 
@@ -96,7 +98,7 @@ public:
   unsigned int GetOrder() const { return m_Order; }
 
   /** Sets the order of accuracy of the derivative. The derivative estimate will
-   * be accurate out to the given order in terms of Taylor Series terms.  The
+   * be accurate out to two times the given order in terms of Taylor Series terms.  The
    * radius of the neighborhood operator is also equal to the given order.  */
   void SetOrderOfAccuracy(const unsigned int & order)
   {
@@ -108,7 +110,7 @@ public:
   /** Prints some debugging information */
   virtual void PrintSelf(std::ostream & os, Indent i) const
   {
-    os << i << "NthOrderAccurateDerivativeOperator { this=" << this
+    os << i << "HigherOrderAccurateDerivativeOperator { this=" << this
        << ", m_Order = " << m_Order
        << ", m_OrderOfAccuracy = " << m_OrderOfAccuracy << "}" << std::endl;
     Superclass::PrintSelf( os, i.GetNextIndent() );
@@ -137,7 +139,7 @@ private:
 } // namespace itk
 
 #if ITK_TEMPLATE_TXX
-#include "itkNthOrderAccurateDerivativeOperator.txx"
+#include "itkHigherOrderAccurateDerivativeOperator.txx"
 #endif
 
 #endif

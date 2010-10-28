@@ -2,7 +2,7 @@
 
 void RegisterTests()
 {
-  REGISTER_TEST(itkNthOrderAccurateGradientImageFilterTest);
+  REGISTER_TEST(itkHigherOrderAccurateGradientImageFilterTest);
 }
 
 #include <sstream>
@@ -12,9 +12,9 @@ void RegisterTests()
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
-#include "itkNthOrderAccurateGradientImageFilter.h"
+#include "itkHigherOrderAccurateGradientImageFilter.h"
 
-int itkNthOrderAccurateGradientImageFilterTest(int argc, char *argv[])
+int itkHigherOrderAccurateGradientImageFilterTest(int argc, char *argv[])
 {
   if ( argc < 3 )
     {
@@ -37,7 +37,7 @@ int itkNthOrderAccurateGradientImageFilterTest(int argc, char *argv[])
   FirstFilterType::Pointer firstFilter = FirstFilterType::New();
   firstFilter->SetInput( reader->GetOutput() );
 
-  typedef itk::NthOrderAccurateGradientImageFilter< ImageType, float, float > FilterType;
+  typedef itk::HigherOrderAccurateGradientImageFilter< ImageType, float, float > FilterType;
   typedef FilterType::OutputImageType GradientImageType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
