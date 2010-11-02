@@ -31,7 +31,7 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 ::HigherOrderAccurateGradientImageFilter():
   m_UseImageSpacing( true ),
   m_UseImageDirection( true ),
-  m_OrderOfAccuracy( 1 )
+  m_OrderOfAccuracy( 2 )
 {
 }
 

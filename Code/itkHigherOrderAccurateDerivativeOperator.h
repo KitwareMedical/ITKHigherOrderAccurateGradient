@@ -72,7 +72,7 @@ public:
   /** Constructor. */
   HigherOrderAccurateDerivativeOperator():
     m_Order(1),
-    m_OrderOfAccuracy(1)
+    m_OrderOfAccuracy(2)
   {}
 
   /** Copy constructor. */

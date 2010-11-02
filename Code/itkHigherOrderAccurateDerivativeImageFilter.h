@@ -117,7 +117,7 @@ public:
 protected:
   HigherOrderAccurateDerivativeImageFilter():
     m_Order(1),
-    m_OrderOfAccuracy(1),
+    m_OrderOfAccuracy(2),
     m_Direction(0),
     m_UseImageSpacing(true)
   {}
