@@ -1,1 +1,8 @@
 *.mha
+*.aux
+*.bbl
+*.blg
+*.brf
+*.log
+*.out
+*.toc

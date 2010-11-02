@@ -155,11 +155,82 @@ approximation will be accurate in Taylor series terms to twice the
 \doxygen{NeighborhoodIterator}'s.  Note that the radius of the
 \doxygen{NeighborhoodOperator} will be equal to the \code{OrderOfAccuracy}.
 Each order derivative is implemented separately to use recursion during
-calculation of the factorials in the expression\cite{Khan1999}.
+calculation of the factorials\cite{Khan1999}.
+
+It should be noted that the magnitude of this finite impulse response filter's components
+falls off dramatically at the ends of the filter with increasing order accuracy.
+Increasing the order of accuracy beyond four may not be beneficial.
 
 \section{An Example -- Foot MRI Derivative and Gradient Magnitude}
 
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=5cm]{Comparisons/foot.png}
+  \end{center}
+  \caption{Foot magnetic resonance image (MRI) from which the derivative images
+  in Figure \ref{fig:derivative} and the gradient images in Figure \ref{fig:gradient} are
+  generated.  This image was taken from the ITK \textit{Testing/Data/Input}
+  directory.}
+  \label{fig:intensity}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \subfigure[DerivativeImageFilter.]{\label{fig:deriv-a}\includegraphics[width=5cm]{Comparisons/derivative_image_filter.png}}
+    \subfigure[OrderOfAccuracy = 1.]{\label{fig:deriv-b}\includegraphics[width=5cm]{Comparisons/derivative_accuracy1.png}}
+    \subfigure[OrderOfAccuracy = 2.]{\label{fig:deriv-c}\includegraphics[width=5cm]{Comparisons/derivative_accuracy2.png}}
+    \subfigure[OrderOfAccuracy = 3.]{\label{fig:deriv-d}\includegraphics[width=5cm]{Comparisons/derivative_accuracy3.png}}
+    \subfigure[OrderOfAccuracy = 4.]{\label{fig:deriv-e}\includegraphics[width=5cm]{Comparisons/derivative_accuracy4.png}}
+    \subfigure[OrderOfAccuracy = 5.]{\label{fig:deriv-f}\includegraphics[width=5cm]{Comparisons/derivative_accuracy5.png}}
+  \end{center}
+  \caption[MRI foot derivative.]{Derivative along Direction 0 in the foot MRI
+  image.
+  The brightness in all the derivative images ranges from
+  -110, black, to 110, white.  Figure \ref{fig:deriv-a} was created with the
+  \code{DerivativeImageFilter} while Figure \ref{fig:deriv-b} to
+  \ref{fig:deriv-f} were created with the
+  \code{itk::HigherOrderAccurateDerivativeImageFilter} with the
+  \code{OrderOfAccuracy} set from 1 to 5.}
+  \label{fig:derivative}
+\end{figure}
+
+\begin{figure}
+  \begin{center}
+    \subfigure[GradientImageFilter.]{\label{fig:grad-a}\includegraphics[width=5cm]{Comparisons/gradient_image_filter.png}}
+    \subfigure[OrderOfAccuracy = 5.]{\label{fig:grad-b}\includegraphics[width=5cm]{Comparisons/gradient_accuracy5.png}}
+    \subfigure[DoG.]{\label{fig:grad-c}\includegraphics[width=5cm]{Comparisons/dog.png}}
+    \subfigure[Recursive Gaussian.]{\label{fig:grad-d}\includegraphics[width=5cm]{Comparisons/recursive_gaussian.png}}
+  \end{center}
+  \caption[Gradient magnitude.]{Gradient magnitude of Figure \ref{fig:intensity}
+  with different filters.  The brightness in all the gradient images ranges from
+  0.0, black, to 128.0, white.  Figure \ref{fig:grad-a} is the
+  \doxygen{GradientImageFilter}.  Figure \ref{fig:grad-b} is the
+  \code{itk::HigherOrderAccurateGradientImageFilter} with order of accuracy set
+  to 5.  Figure \ref{fig:grad-c} is the
+  \doxygen{DifferenceOfGaussiansGradientImageFilter} with a width of 1.0.
+  Figure \ref{fig:grad-d} is the \doxygen{GradientRecursiveGaussianImageFilter} with
+  a sigma of 1.0.  The spacing in the image is isotropic with a value of 1.0.}
+  \label{fig:gradient}
+\end{figure}
+
+Figure \ref{fig:derivative} and Figure \ref{fig:gradient} demonstrate the behavior of the filter on an MRI foot
+image.  Note that if the \code{OrderOfAccuracy} is set to one,
+\code{itk::HigherOrderAccurateDerivativeImageFilter} is equivalent to
+\doxygen{DerivativeImageFilter} and
+\code{itk::HigherOrderAccurateGradientImageFilter} is equivalent to
+\doxygen{GradientImageFilter}.  The source code to generate
+these images can be found in the \code{Testing} subdirectory.
+
+In general, we see the higher order accuracy results in lower noise, higher
+contrast and higher dynamic range results.  Unlike the difference of Gaussians
+or recursive Gaussian filters, though, it does not remove high frequency
+content, which is often primarily noise.  Choice of the most appropriate filter
+depends on the application.
+
 \section{Future Work}
+
+At this time, only the first order derivative is implemented.  In the future,
+higher order derivatives should be implemented.
 
 \bibliographystyle{itk}
 \bibliography{ij_higher_order_accurate_gradient}

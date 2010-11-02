@@ -26,13 +26,18 @@ original_ren = vtk.vtkRenderer()
 original_ren.AddActor( original_actor )
 original_ren.SetViewport( 0.0, 0.0, 0.5, 1.0 )
 original_ren.SetActiveCamera( camera )
+original_ren.SetBackground( 1.0, 1.0, 1.0 )
 
 gradient_reader = vtk.vtkMetaImageReader()
 gradient_reader.SetFileName( sys.argv[2] )
 gradient_reader.Update()
 
-min = 0.0
-max = 128.0
+if len( sys.argv ) > 4:
+    min = float( sys.argv[4] )
+    max = float( sys.argv[5] )
+else:
+    min = 0.0
+    max = 128.0
 shift = -1 * min
 scale = 255./ ( max - min )
 
@@ -49,6 +54,7 @@ gradient_ren = vtk.vtkRenderer()
 gradient_ren.AddActor( gradient_actor )
 gradient_ren.SetViewport( 0.5, 0.0, 1.0, 1.0 )
 gradient_ren.SetActiveCamera( camera )
+gradient_ren.SetBackground( 1.0, 1.0, 1.0 )
 
 ren_win = vtk.vtkRenderWindow()
 ren_win.SetSize( 1200, 600 )
