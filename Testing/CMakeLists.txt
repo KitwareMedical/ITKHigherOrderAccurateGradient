@@ -8,9 +8,12 @@ target_link_libraries( itkHigherOrderAccurateGradientImageFilterTest
   ITKIO
   )
 
-# @todo compare components
 add_test( itkHigherOrderAccurateGradientImageFilterTest
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkHigherOrderAccurateGradientImageFilterTest
+  --compare itkHigherOrderAccurateDerivativeImageFilterTest_Accuracy1_Direction0.mha
+  itkHigherOrderAccurateDerivativeImageFilterTest_DerivativeImageFilter_Direction0.mha
+  --compare itkHigherOrderAccurateDerivativeImageFilterTest_Accuracy1_Direction1.mha
+  itkHigherOrderAccurateDerivativeImageFilterTest_DerivativeImageFilter_Direction1.mha
   itkHigherOrderAccurateGradientImageFilterTest
   ${INPUT_DIR}/foot.mha
   itkHigherOrderAccurateGradientImageFilterTest
@@ -25,9 +28,10 @@ target_link_libraries( itkHigherOrderAccurateDerivativeImageFilterTest
   ITKIO
   )
 
-# @todo compare output of regular with accuracy of 1
 add_test( itkHigherOrderAccurateDerivativeImageFilterTest
   ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/itkHigherOrderAccurateDerivativeImageFilterTest
+  --compare itkHigherOrderAccurateGradientImageFilterTest_Accuracy1_Magnitude.mha
+  itkHigherOrderAccurateGradientImageFilterTest_GradientImageFilter_Magnitude.mha
   itkHigherOrderAccurateDerivativeImageFilterTest
   ${INPUT_DIR}/foot.mha
   itkHigherOrderAccurateDerivativeImageFilterTest
