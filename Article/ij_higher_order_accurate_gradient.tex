@@ -141,6 +141,14 @@ five point kernel is
 
 Khan and Ohba derived closed form expressions for higher order accurate
 approximations for an arbitrary $p$th order derivative\cite{Khan1999,Khan2003}.
+
+For example, the tap-coefficients, $d$, for a first order derivative 
+\begin{eqnarray}
+d_0 & = & 0 \\
+d_k & = & (-1)^{k+1} \frac{N!^2}{k(N-k)!(N+k)!}, \; k = \pm 1, \pm 2, \dots, \pm
+N
+\end{eqnarray}
+
 In this paper we present image derivative and gradient filters for the
 InsightToolkit (ITK)\cite{itk} that implement these expressions.
 
