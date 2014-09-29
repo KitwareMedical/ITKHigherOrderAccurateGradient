@@ -29,6 +29,7 @@
 
 namespace itk
 {
+
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::HigherOrderAccurateGradientImageFilter():
@@ -42,7 +43,6 @@ template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::GenerateInputRequestedRegion()
-throw ( InvalidRequestedRegionError )
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
@@ -95,6 +95,7 @@ throw ( InvalidRequestedRegionError )
     throw e;
     }
 }
+
 
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
@@ -206,9 +207,7 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
@@ -223,6 +222,7 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
   os << indent << "OrderOfAccuracy: "
      << this->m_OrderOfAccuracy << std::endl;
 }
+
 } // end namespace itk
 
 #endif

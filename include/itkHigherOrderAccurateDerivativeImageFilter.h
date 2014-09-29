@@ -22,6 +22,7 @@
 
 namespace itk
 {
+
 /** \class HigherOrderAccurateDerivativeImageFilter
  * \brief Computes the higher order accurate directional derivative of an image.
  * The directional derivative at each pixel location is computed by convolution
@@ -45,12 +46,12 @@ namespace itk
  * \ingroup HigherOrderAccurateGradient
  */
 template< class TInputImage, class TOutputImage >
-class ITK_EXPORT HigherOrderAccurateDerivativeImageFilter:
+class HigherOrderAccurateDerivativeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef HigherOrderAccurateDerivativeImageFilter                           Self;
+  typedef HigherOrderAccurateDerivativeImageFilter        Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -108,16 +109,6 @@ public:
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
 
-  /** HigherOrderAccurateDerivativeImageFilter needs a larger input requested region than
-   * the output requested region (larger in the direction of the
-   * derivative).  As such, HigherOrderAccurateDerivativeImageFilter needs to provide an
-   * implementation for GenerateInputRequestedRegion() in order to
-   * inform the pipeline execution model.
-   *
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion()
-  throw( InvalidRequestedRegionError );
-
 protected:
   HigherOrderAccurateDerivativeImageFilter():
     m_Order(1),
@@ -127,14 +118,23 @@ protected:
   {}
 
   virtual ~HigherOrderAccurateDerivativeImageFilter() {}
-  void PrintSelf(std::ostream & os, Indent indent) const;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const;
+
+  /** HigherOrderAccurateDerivativeImageFilter needs a larger input requested region than
+   * the output requested region (larger in the direction of the
+   * derivative).  As such, HigherOrderAccurateDerivativeImageFilter needs to provide an
+   * implementation for GenerateInputRequestedRegion() in order to
+   * inform the pipeline execution model.
+   *
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
-  void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   HigherOrderAccurateDerivativeImageFilter(const Self &); //purposely not implemented
@@ -151,6 +151,7 @@ private:
 
   bool m_UseImageSpacing;
 };
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
