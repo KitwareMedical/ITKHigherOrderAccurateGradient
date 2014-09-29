@@ -39,6 +39,7 @@ namespace itk
  * \sa NeighborhoodIterator
  *
  * \ingroup ImageFeatureExtraction
+ * \ingroup HigherOrderAccurateGradient
  */
 template< class TInputImage, class TOutputImage >
 class ITK_EXPORT HigherOrderAccurateDerivativeImageFilter:

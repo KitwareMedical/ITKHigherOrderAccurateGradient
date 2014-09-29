@@ -1,10 +1,3 @@
-#include "itkTestMain.h"
-
-void RegisterTests()
-{
-  REGISTER_TEST(itkHigherOrderAccurateDerivativeImageFilterTest);
-}
-
 #include <sstream>
 
 #include "itkDerivativeImageFilter.h"

@@ -97,7 +97,7 @@ template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       int threadId)
+                       ThreadIdType threadId)
 {
   unsigned int    i;
   OutputPixelType gradient;

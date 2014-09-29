@@ -1,14 +1,7 @@
-#include "itkTestMain.h"
-
-void RegisterTests()
-{
-  REGISTER_TEST(itkHigherOrderAccurateGradientImageFilterTest);
-}
-
 #include <sstream>
 
 #include "itkGradientImageFilter.h"
-#include "itkGradientToMagnitudeImageFilter.h"
+#include "itkVectorMagnitudeImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
@@ -44,7 +37,7 @@ int itkHigherOrderAccurateGradientImageFilterTest(int argc, char *argv[])
 
   std::string outputPrefix = argv[2];
 
-  typedef itk::GradientToMagnitudeImageFilter< GradientImageType, ImageType >
+  typedef itk::VectorMagnitudeImageFilter< GradientImageType, ImageType >
     GradientMagnitudeFilterType;
   GradientMagnitudeFilterType::Pointer gradientMagnitude = GradientMagnitudeFilterType::New();
 

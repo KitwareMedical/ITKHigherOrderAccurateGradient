@@ -51,6 +51,7 @@ namespace itk
  * \sa BackwardDifferenceOperator
  *
  * \ingroup Operators
+ * \ingroup HigherOrderAccurateGradient
  */
 template< class TPixel, unsigned int VDimension = 2,
           class TAllocator = NeighborhoodAllocator< TPixel > >

@@ -29,14 +29,12 @@ namespace itk {
  * \sa HigherOrderAccurateDerivativeImageFilter
  *
  * \ingroup GradientFilters
+ * \ingroup HigherOrderAccurateGradient
  */
 template< class TInputImage, class TOperatorValueType = float,
   class TOutputValueType = float >
 class ITK_EXPORT HigherOrderAccurateGradientImageFilter: public ImageToImageFilter< TInputImage,
-  Image< CovariantVector< TOutputValueType, ::itk::GetImageDimension<
-                                       TInputImage >::ImageDimension >,
-                                       ::itk::GetImageDimension< TInputImage
-                                       >::ImageDimension > >
+  Image< CovariantVector< TOutputValueType, TInputImage::ImageDimension >, TInputImage::ImageDimension > >
 {
 public:
   /** Extract dimension from input image. */
@@ -133,8 +131,7 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                            int threadId);
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
 private:
   HigherOrderAccurateGradientImageFilter( const Self & ); // purposely not implemented
