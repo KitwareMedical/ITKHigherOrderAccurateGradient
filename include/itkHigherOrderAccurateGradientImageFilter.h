@@ -166,7 +166,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkHigherOrderAccurateGradientImageFilter.txx"
+#include "itkHigherOrderAccurateGradientImageFilter.hxx"
 #endif
 
 #endif

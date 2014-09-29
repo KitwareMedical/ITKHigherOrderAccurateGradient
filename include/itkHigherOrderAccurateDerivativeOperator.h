@@ -142,8 +142,8 @@ private:
 };
 } // namespace itk
 
-#if ITK_TEMPLATE_TXX
-#include "itkHigherOrderAccurateDerivativeOperator.txx"
+#ifndef ITK_MANUAL_INSTANTIATION
+#include "itkHigherOrderAccurateDerivativeOperator.hxx"
 #endif
 
 #endif
