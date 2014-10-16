@@ -52,6 +52,7 @@ HigherOrderAccurateDerivativeOperator< TPixel, VDimension, TAllocator >
   coeff[order - 1] = -1 * coeff[order + 1];
 
   unsigned int i;
+  // TODO Try to refactor this loop to pull out common multiplications
   for( i = 1; i < order; ++i )
     {
     coeff[order + 1 + i] = -1 * (i * static_cast< double >(order - i)) /
