@@ -29,7 +29,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::HigherOrderAccurateGradientImageFilter():
   m_UseImageSpacing( true ),
@@ -38,7 +38,8 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 {
 }
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::GenerateInputRequestedRegion()
@@ -96,7 +97,7 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 }
 
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
@@ -202,7 +203,7 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 }
 
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::PrintSelf(std::ostream & os, Indent indent) const
