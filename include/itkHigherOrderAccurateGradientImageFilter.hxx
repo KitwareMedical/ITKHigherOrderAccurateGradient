@@ -25,12 +25,11 @@
 #include "itkHigherOrderAccurateDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::HigherOrderAccurateGradientImageFilter():
   m_UseImageSpacing( true ),
@@ -39,7 +38,8 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 {
 }
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::GenerateInputRequestedRegion()
@@ -97,11 +97,10 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 }
 
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int    i;
   OutputPixelType gradient;
@@ -161,9 +160,6 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
   fit = faceList.begin();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Initialize the x_slice array
   nit = ConstNeighborhoodIterator< InputImageType >(radius, inputImage, *fit);
 
@@ -202,13 +198,12 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
         }
       ++nit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }
 
 
-template< class TInputImage, class TOperatorValueType, class TOutputValueType >
+template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
 ::PrintSelf(std::ostream & os, Indent indent) const

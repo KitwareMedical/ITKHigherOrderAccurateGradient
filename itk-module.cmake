@@ -13,7 +13,6 @@ itk_module(HigherOrderAccurateGradient
     ITKImageGradient
     ITKImageIntensity
     ITKImageFeature
-    SplitComponents
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
