@@ -50,7 +50,7 @@ namespace itk
  * \ingroup GradientFilters
  * \ingroup HigherOrderAccurateGradient
  */
-template< class TInputImage, class TOperatorValueType = float,
+template< typename TInputImage, typename TOperatorValueType = float,
   class TOutputValueType = float >
 class HigherOrderAccurateGradientImageFilter: public ImageToImageFilter< TInputImage,
   Image< CovariantVector< TOutputValueType, TInputImage::ImageDimension >, TInputImage::ImageDimension > >

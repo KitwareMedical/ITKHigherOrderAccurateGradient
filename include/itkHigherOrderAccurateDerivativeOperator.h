@@ -57,8 +57,8 @@ namespace itk
  * \ingroup Operators
  * \ingroup HigherOrderAccurateGradient
  */
-template< class TPixel, unsigned int VDimension = 2,
-          class TAllocator = NeighborhoodAllocator< TPixel > >
+template< typename TPixel, unsigned int VDimension = 2,
+          typename TAllocator = NeighborhoodAllocator< TPixel > >
 class HigherOrderAccurateDerivativeOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
