@@ -25,7 +25,6 @@
 #include "itkHigherOrderAccurateDerivativeOperator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -100,8 +99,7 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
 template< class TInputImage, class TOperatorValueType, class TOutputValueType >
 void
 HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType >
-::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                       ThreadIdType threadId)
+::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)
 {
   unsigned int    i;
   OutputPixelType gradient;
@@ -161,9 +159,6 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
   fit = faceList.begin();
 
-  // support progress methods/callbacks
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
   // Initialize the x_slice array
   nit = ConstNeighborhoodIterator< InputImageType >(radius, inputImage, *fit);
 
@@ -202,7 +197,6 @@ HigherOrderAccurateGradientImageFilter< TInputImage, TOperatorValueType, TOutput
         }
       ++nit;
       ++it;
-      progress.CompletedPixel();
       }
     }
 }
