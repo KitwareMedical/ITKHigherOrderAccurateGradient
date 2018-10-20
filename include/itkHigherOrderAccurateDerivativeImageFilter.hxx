@@ -27,7 +27,7 @@
 namespace itk
 {
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
@@ -84,7 +84,7 @@ HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
@@ -150,7 +150,7 @@ HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >
 }
 
 
-template< class TInputImage, class TOutputImage >
+template< typename TInputImage, typename TOutputImage >
 void
 HigherOrderAccurateDerivativeImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {
