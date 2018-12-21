@@ -1,5 +1,5 @@
-HigherOrderAccurateGradient
-===========================
+ITKHigherOrderAccurateGradient
+==============================
 
 .. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient
@@ -16,5 +16,16 @@ HigherOrderAccurateGradient
 |CircleCI|  |TravisCI|  |AppVeyor|
 =========== =========== ===========
 
+
+Overview
+--------
+
 This repository has InsightToolkit (ITK) filters for calculating higher order
 accurate numerical derivatives and gradients from an input scalar image.
+
+
+License
+-------
+
+This software is distributed under the Apache 2.0 license. Please see the
+*LICENSE* file for details.
