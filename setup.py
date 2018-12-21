@@ -20,10 +20,10 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient',
     description=r'ITK filters to estimate higher order accurate derivative and gradients',
-    long_description='ITKHigherOrderAccurateGradient provides higher order'
+    long_description='itk-higherorderaccurategradient provides higher order '
                      'accurate derivative and gradient image filters.\n'
                      'Please refer to:\n'
-                     'M. McCormick, “Higher Order Accurate Derivative and Gradient Calculation in ITK.”,'
+                     'M. McCormick, "Higher Order Accurate Derivative and Gradient Calculation in ITK.", '
                      'Insight Journal, July-December 2010, http://hdl.handle.net/10380/3231',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
