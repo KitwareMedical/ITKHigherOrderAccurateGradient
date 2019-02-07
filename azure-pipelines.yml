@@ -1,0 +1,104 @@
+trigger:
+- master
+
+jobs:
+
+- job: 'Test'
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - bash: |
+      set -x
+      if [ -n "$(System.PullRequest.SourceCommitId)" ]; then
+        git checkout $(System.PullRequest.SourceCommitId)
+      fi
+    displayName: Checkout pull request HEAD
+  - script: |
+      ITK_GIT_TAG=v5.0rc01
+      git clone --depth 5 --branch $ITK_GIT_TAG https://github.com/InsightSoftwareConsortium/ITK.git
+    workingDirectory: $(Agent.BuildDirectory)
+    displayName: 'Download ITK'
+
+  - script: |
+      mkdir ITK-build
+      cd ITK-build
+      sudo pip3 install ninja
+      cmake -DCMAKE_BUILD_TYPE:STRING=MinSizeRel -DBUILD_TESTING:BOOL=OFF -GNinja ../ITK
+      ninja
+    workingDirectory: $(Agent.BuildDirectory)
+    displayName: 'Build ITK'
+
+  - script: |
+      curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/dashboard/itk_common.cmake -O
+    displayName: Fetch CTest driver script
+
+  - bash: |
+      SHASNIP=$(echo "$(System.PullRequest.SourceCommitId)" | cut -c1-7)
+      cat > dashboard.cmake << EOF
+      set(CTEST_SITE "Azure.${AGENT_MACHINENAME}")
+      file(TO_CMAKE_PATH "$(Agent.BuildDirectory)" CTEST_DASHBOARD_ROOT)
+      file(RELATIVE_PATH dashboard_source_name "$(Agent.BuildDirectory)" "$ENV{BUILD_SOURCESDIRECTORY}")
+      if(DEFINED ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH})
+        set(branch "-$ENV{SYSTEM_PULLREQUEST_SOURCEBRANCH}")
+        set(dashboard_model "Experimental")
+      elseif(ENV{BUILD_SOURCEBRANCHNAME} STREQUAL "master")
+        set(branch "-master")
+        set(dashboard_model "Continuous")
+      else()
+        set(branch "-$ENV{BUILD_SOURCEBRANCHNAME}")
+        set(dashboard_model "Experimental")
+      endif()
+      if(DEFINED ENV{SYSTEM_PULLREQUEST_PULLREQUESTNUMBER})
+        set(pr "-PR$ENV{SYSTEM_PULLREQUEST_PULLREQUESTNUMBER}")
+      else()
+        set(pr "")
+      endif()
+      set(CTEST_BUILD_NAME "$ENV{AGENT_OS}-Build$ENV{BUILD_BUILDID}${pr}${branch}${wrapping}")
+      set(CTEST_UPDATE_VERSION_ONLY 1)
+      set(CTEST_SOURCE_DIRECTORY "$(Build.SourcesDirectory)")
+      set(CTEST_BINARY_DIRECTORY "$(Agent.BuildDirectory)/$(Build.Repository.Name)-build")
+      set(CTEST_TEST_ARGS ${CTEST_TEST_ARGS} PARALLEL_LEVEL ${PARALLEL_LEVEL})
+      set(CTEST_BUILD_CONFIGURATION "Release")
+      set(CTEST_CMAKE_GENERATOR "Ninja")
+      set(dashboard_no_clean 1)
+      set(dashboard_cache "
+      ITK_DIR:PATH=$(Agent.BuildDirectory)/ITK-build
+      BUILD_TESTING:BOOL=ON
+      ")
+      string(TIMESTAMP build_date "%Y-%m-%d")
+      message("CDash Build Identifier: ${build_date} ${CTEST_BUILD_NAME}")
+      message("CTEST_SITE = ${CTEST_SITE}")
+      include(\${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
+      EOF
+    displayName: Configure CTest script
+  - script: |
+      ctest -j 2 -V -S dashboard.cmake
+    displayName: Build and Test
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFiles: '**/test-results.xml'
+      testRunTitle: 'Python $(python.version)'
+    condition: succeededOrFailed()
+
+- job: 'PackageLinux'
+  displayName: "Build Linux Python Packages"
+  pool:
+    vmImage: 'Ubuntu-16.04'
+
+  steps:
+  - script: |
+        curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITKPythonPackage/master/scripts/dockcross-manylinux-download-cache-and-build-module-wheels.sh -O
+        chmod u+x dockcross-manylinux-download-cache-and-build-module-wheels.sh
+    displayName: Fetch build script
+
+  - script: |
+        ./dockcross-manylinux-download-cache-and-build-module-wheels.sh
+    displayName: 'Build Python packages'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'LinuxWheels'
+      targetPath: './dist'
+
