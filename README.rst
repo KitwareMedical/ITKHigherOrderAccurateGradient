@@ -1,21 +1,17 @@
 ITKHigherOrderAccurateGradient
 ==============================
 
-.. |CircleCI| image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient
+.. image:: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_apis/build/status/InsightSoftwareConsortium.ITKHigherOrderAccurateGradient?branchName=master
+    :target: https://dev.azure.com/InsightSoftwareConsortium/ITKModules/_build/latest?definitionId=2&branchName=master
+    :alt: Build status
 
-.. |TravisCI| image:: https://travis-ci.org/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient
+.. image:: https://img.shields.io/pypi/v/itk-higherorderaccurategradient.svg
+    :target: https://pypi.python.org/pypi/itk-higherorderaccurategradient
+    :alt: PyPI
 
-.. |AppVeyor| image:: https://img.shields.io/appveyor/ci/itkrobot/itkhigherorderaccurategradient.svg
-    :target: https://ci.appveyor.com/project/itkrobot/itkhigherorderaccurategradient
-
-=========== =========== ===========
-   Linux      macOS       Windows
-=========== =========== ===========
-|CircleCI|  |TravisCI|  |AppVeyor|
-=========== =========== ===========
-
+.. image:: https://img.shields.io/badge/License-Apache%202.0-blue.svg
+    :target: https://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient/blob/master/LICENSE)
+    :alt: License
 
 Overview
 --------
