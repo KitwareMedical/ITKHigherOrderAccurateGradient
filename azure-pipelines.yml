@@ -9,6 +9,8 @@ jobs:
 
 - job: 'Test'
   displayName: "Build and test"
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
 
   strategy:
     matrix:
@@ -138,6 +140,8 @@ jobs:
 
 
 - job: 'PackageLinux'
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
   displayName: "Build Linux Python packages"
   pool:
     vmImage: 'Ubuntu-16.04'
@@ -161,6 +165,8 @@ jobs:
 
 - job: 'PackageMacOS'
   displayName: "Build macOS Python packages"
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
   pool:
     vmImage: 'macos-10.13'
 
@@ -183,6 +189,8 @@ jobs:
 
 - job: 'PackageWindows'
   displayName: "Build Windows Python packages"
+  timeoutInMinutes: 0
+  cancelTimeoutInMinutes: 300
   pool:
     vmImage: 'vs2017-win2016'
 
