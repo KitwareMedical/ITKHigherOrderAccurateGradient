@@ -19,6 +19,25 @@ Overview
 This repository has InsightToolkit (ITK) filters for calculating higher order
 accurate numerical derivatives and gradients from an input scalar image.
 
+Installation
+------------
+
+To install the Python package::
+
+  python -m pip install itk-higherorderaccurategradient
+
+To build the C++ module, either enable the CMake option in ITK's
+build configuration::
+
+  Module_HigherOrderAccurateGradient:BOOL=ON
+
+Or, build the module as a separate project against an ITK build tree::
+
+  git clone https://github.com/InsightSoftwareConsortium/ITKHigherOrderAccurateGradient
+  mkdir ITKHigherOrderAccurateGradient-bulid
+  cd ITKHigherOrderAccurateGradient-build
+  cmake -DITK_DIR=/path/to/ITK-build ../ITKHigherOrderAccurateGradient
+  cmake --build .
 
 License
 -------
